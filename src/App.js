@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import exampleImage from './assets/image/lunch.jpg';
 
 const ProductInput = () => {
   const [productName, setProductName] = useState("");
@@ -20,26 +21,59 @@ const ProductInput = () => {
   );
 };
 
+
+
 const ProductTable = ({ currentItems }) => {
+
+  const tableStyle = {
+    borderCollapse: 'collapse',
+    width: '100%',
+    textAlign: 'left',
+  };
+
+  const thStyle = {
+    border: '1px solid #ddd',
+    padding: '8px',
+    backgroundColor: '#f2f2f2',
+  };
+
+  const tdStyle = {
+    border: '1px solid #ddd',
+    padding: '8px',
+  };
+
+  const imageStyle = {
+    width: '100px', // 이미지의 너비 고정
+    height: '100px', // 이미지의 높이 고정
+    objectFit: 'cover' // 이미지 비율 유지
+  };
+
   return (
-    <table>
+    <table style={tableStyle}>
       <thead>
         <tr>
-          <th>번호</th>
-          <th>상품명</th>
-          <th>최저가</th>
-          <th>유효기간</th>
-          <th>입고날짜</th>
+          <th style={thStyle}>번호</th>
+          <th style={thStyle}>상품명</th>
+          <th style={thStyle}>최저가</th>
+          <th style={thStyle}>유효기간</th>
+          <th style={thStyle}>입고날짜</th>
+          <th style={thStyle}>제품사진</th>
         </tr>
       </thead>
       <tbody>
         {currentItems.map((item) => (
           <tr key={item.번호}>
-            <td>{item.번호}</td>
-            <td>{item.상품명}</td>
-            <td>{item.최저가}</td>
-            <td>{item.유효기간}</td>
-            <td>{item.입고날짜}</td>
+            <td style={tdStyle}>{item.번호}</td>
+            <td style={tdStyle}>{item.상품명}</td>
+            <td style={tdStyle}>{item.최저가}</td>
+            <td style={tdStyle}>{item.유효기간}</td>
+            <td style={tdStyle}>{item.입고날짜}</td>
+            <td style={tdStyle}><img
+              src={exampleImage.제품사진}
+              style={imageStyle}
+              loading="lazy" // 이미지 로딩 최적화 (지연 로딩)
+            />
+            </td>
           </tr>
         ))}
       </tbody>
@@ -77,27 +111,50 @@ const ProductButtons = ({ handleSort }) => {
 const Pagination = ({ itemsPerPage, totalItems, currentPage, paginate }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  const navStyle = {
+    textAlign: 'center', // 가운데 정렬을 위한 스타일
+    marginTop: '20px'
+  };
+
+  const ulStyle = {
+    listStyle: 'none',
+    display: 'inline-block', // 가로로 표시되도록 설정
+    padding: 0
+  };
+
+  const liStyle = {
+    display: 'inline', // 항목들을 가로로 나열
+    margin: '0 5px'
+  };
+
+  const buttonStyle = {
+    padding: '5px 10px',
+    border: '1px solid #ddd',
+    backgroundColor: '#f8f8f8',
+    cursor: 'pointer'
+  };
+
   return (
-    <nav>
-      <ul style={{ listStyle: 'none', display: 'flex', padding: 0 }}>
+    <nav style={navStyle}>
+      <ul style={ulStyle}>
         {currentPage !== 1 && (
-          <li>
-            <button onClick={() => paginate(currentPage - 1)}> 왼쪽</button>
+          <li style={liStyle}>
+            <button style={buttonStyle} onClick={() => paginate(currentPage - 1)}>왼쪽</button>
           </li>
         )}
         {[currentPage].map((number) => (
-          <li key={number} style={{ margin: '0 5px' }}>
+          <li key={number} style={liStyle}>
             <button
+              style={buttonStyle}
               onClick={() => paginate(number)}
-              style={{ fontWeight: 'bold' }}
             >
               {number}
             </button>
           </li>
         ))}
         {currentPage !== totalPages && (
-          <li>
-            <button onClick={() => paginate(currentPage + 1)}>오른쪽</button>
+          <li style={liStyle}>
+            <button style={buttonStyle} onClick={() => paginate(currentPage + 1)}>오른쪽</button>
           </li>
         )}
       </ul>
@@ -138,7 +195,7 @@ const App = () => {
     // 정렬 기능 구현 (오름차순 또는 내림차순)
   };
 
-  
+
 
   return (
     <div>
